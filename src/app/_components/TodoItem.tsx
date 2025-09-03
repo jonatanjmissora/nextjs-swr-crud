@@ -1,19 +1,20 @@
 "use client"
 import { deleteTodo } from "../_actions/delete-todo"
 import { TodoType } from "../_lib/types"
-import { useState } from "react"
+import { startTransition, useState } from "react"
 import { toast } from "sonner"
 
 export const TodoItem = ({ todo }: { todo: TodoType }) => {
 	const [completed, setCompleted] = useState(todo.completed)
 
 	const handleDelete = async () => {
-		const response = await deleteTodo(todo.id)
-		if (response.success) {
-			toast.success(response.message)
-		} else {
-			toast.error(response.message)
-		}
+		startTransition(async () => {
+			toast.promise(deleteTodo(todo.id), {
+				loading: "borrando todo...",
+				success: "todo borrado exitosamente",
+				error: "Error al borrar todo",
+			})
+		})
 	}
 
 	return (
@@ -27,7 +28,7 @@ export const TodoItem = ({ todo }: { todo: TodoType }) => {
 				defaultChecked={todo.completed}
 				onChange={() => setCompleted(!completed)}
 			/>
-			<span>{todo.title}</span>
+			<span className="truncate">{todo.title}</span>
 			<button
 				onClick={handleDelete}
 				className="bg-red-500/20 text-white px-2 py-1 rounded"

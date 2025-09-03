@@ -1,5 +1,7 @@
 "use server"
 
+import { revalidatePath } from "next/cache"
+
 export const deleteTodo = async (id: number) => {
   try {
     const response = await fetch(`http://localhost:3000/api/todos/${id}`, {
@@ -14,16 +16,17 @@ export const deleteTodo = async (id: number) => {
       console.error('Delete error:', errorText)
       return { 
         success: false, 
-        message: errorText || 'Failed to delete todo' 
+        message: 'An error occurred while deleting the todo'
       }
     }
 
-    return await response.json()
+    revalidatePath("/")
+    return { success: true, message: `Todo ${id} deleted successfully` }
   } catch (error) {
     console.error('Delete error:', error)
     return { 
       success: false, 
-      message: error instanceof Error ? error.message : 'An error occurred while deleting the todo' 
+      message: 'An error occurred while deleting the todo' 
     }
   }
 }

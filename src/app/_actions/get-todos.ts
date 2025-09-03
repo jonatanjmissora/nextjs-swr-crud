@@ -10,9 +10,9 @@ export const getTodos = async () => {
 		}
 
 		const data = await response.json()
-		return data
+		return {success: true, data}
 	} catch (error) {
 		console.error("Error fetching todos:", error)
-		throw error
+		return {success: false, data: []}	
 	}
 }

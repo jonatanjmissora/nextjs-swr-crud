@@ -21,7 +21,11 @@ export default function TodoList() {
 }
 
 const TodoListSuspense = async () => {
-	const todos = (await getTodos()) as TodoType[]
+	const {success, data: todos} = (await getTodos()) as {success: boolean, data: TodoType[]}
+
+	if (!success) {
+		return <div>No se encontraron datos. Compruebe su conexion a la base de datos. Tiene corriendo el servidor en el puerto 3001?</div>
+	}
 
 	return (
 		<ul>
