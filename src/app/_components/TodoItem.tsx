@@ -1,25 +1,18 @@
 "use client"
-import { deleteTodo } from "../_actions/delete-todo"
+// import { deleteTodo } from "../_actions/delete-todo"
 import { updateTodo } from "../_actions/update-todo"
 import { TodoType } from "../_lib/types"
 import { startTransition } from "react"
 import { toast } from "sonner"
+import { deleteTodo } from "../api/todosApi"
 
 export const TodoItem = ({ todo }: { todo: TodoType }) => {
-	// const [completed, setCompleted] = useState(todo.completed)
-
 	const handleDelete = async () => {
 		startTransition(async () => {
 			toast.promise(deleteTodo(todo.id), {
 				loading: "Borrando todo...",
-				success: data => {
-					// data aquí es {success: boolean, message: string}
-					return data.message || `Todo ${todo.id} borrado exitosamente`
-				},
-				error: data => {
-					// data aquí es {success: boolean, message: string}
-					return data.message || `Error al borrar el todo ${todo.id}`
-				},
+				success: data => data.message,
+				error: error => error.message,
 			})
 		})
 	}

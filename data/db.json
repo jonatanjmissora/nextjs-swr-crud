@@ -1,22 +1,3 @@
 {
-  "todos": [
-    {
-      "userId": 1,
-      "id": 1757011704481,
-      "title": "potpurri",
-      "completed": false
-    },
-    {
-      "userId": 1,
-      "id": 1757011766888,
-      "title": "bacalao",
-      "completed": true
-    },
-    {
-      "userId": 1,
-      "id": 1757011836999,
-      "title": "villano",
-      "completed": false
-    }
-  ]
+  "todos": []
 }
