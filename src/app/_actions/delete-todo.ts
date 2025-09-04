@@ -3,7 +3,6 @@
 import { revalidatePath } from "next/cache"
 
 export const deleteTodo = async (id: number) => {
-	console.log("Todo para eliminar :", id)
 	await new Promise(resolve => setTimeout(resolve, 2000))
 	const response = await fetch(`http://localhost:3000/api/todos/${id}`, {
 		method: "DELETE",

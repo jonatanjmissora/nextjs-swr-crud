@@ -8,9 +8,7 @@ export async function DELETE(
 		params: { id: string }
 	}
 ) {
-	console.log("entro al delete", params)
 	const { id } = await params
-	console.log("entro al delete", id)
 	try {
 		const response = await fetch(`http://localhost:3001/todos/${id}`, {
 			method: "DELETE",

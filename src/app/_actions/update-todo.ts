@@ -5,7 +5,6 @@ import { TodoType } from "../_lib/types"
 
 export const updateTodo = async (todo: TodoType) => {
 	await new Promise(resolve => setTimeout(resolve, 2000))
-	console.log("Todo para actualizar :", todo)
 	const response = await fetch(`http://localhost:3000/api/todos/${todo.id}`, {
 		method: "PUT",
 		headers: {
