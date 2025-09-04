@@ -1,18 +1,41 @@
 "use client"
 import { deleteTodo } from "../_actions/delete-todo"
+import { updateTodo } from "../_actions/update-todo"
 import { TodoType } from "../_lib/types"
-import { startTransition, useState } from "react"
+import { startTransition } from "react"
 import { toast } from "sonner"
 
 export const TodoItem = ({ todo }: { todo: TodoType }) => {
-	const [completed, setCompleted] = useState(todo.completed)
+	// const [completed, setCompleted] = useState(todo.completed)
 
 	const handleDelete = async () => {
 		startTransition(async () => {
 			toast.promise(deleteTodo(todo.id), {
-				loading: "borrando todo...",
-				success: "todo borrado exitosamente",
-				error: "Error al borrar todo",
+				loading: "Borrando todo...",
+				success: data => {
+					// data aquí es {success: boolean, message: string}
+					return data.message || `Todo ${todo.id} borrado exitosamente`
+				},
+				error: data => {
+					// data aquí es {success: boolean, message: string}
+					return data.message || `Error al borrar el todo ${todo.id}`
+				},
+			})
+		})
+	}
+
+	const handleUpdate = async () => {
+		startTransition(async () => {
+			toast.promise(updateTodo(todo), {
+				loading: "Actualizando todo...",
+				success: data => {
+					// data aquí es {success: boolean, message: string}
+					return data.message || `Todo ${todo.id} actualizado exitosamente`
+				},
+				error: data => {
+					// data aquí es {success: boolean, message: string}
+					return data.message || `Error al actualizar el todo ${todo.id}`
+				},
 			})
 		})
 	}
@@ -20,13 +43,14 @@ export const TodoItem = ({ todo }: { todo: TodoType }) => {
 	return (
 		<li
 			key={todo.id}
-			className="grid grid-cols-[0.2fr_0.1fr_1fr_0.25fr] gap-4 py-2"
+			className="grid grid-cols-[0.3fr_0.1fr_1fr_0.25fr] items-center gap-4 py-2"
 		>
-			<span>id: {todo.id}</span>
+			<span>id: ...{todo.id.toString().slice(7, 13)}</span>
 			<input
 				type="checkbox"
-				defaultChecked={todo.completed}
-				onChange={() => setCompleted(!completed)}
+				checked={todo.completed}
+				className="size-6"
+				onChange={handleUpdate}
 			/>
 			<span className="truncate">{todo.title}</span>
 			<button
