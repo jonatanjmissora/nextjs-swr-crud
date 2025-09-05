@@ -1,3 +1,52 @@
 {
-  "todos": []
+  "todos": [
+    {
+      "userId": 1,
+      "id": 6,
+      "title": "qui ullam ratione quibusdam voluptatem quia omnis",
+      "completed": true
+    },
+    {
+      "userId": 1,
+      "id": 13,
+      "title": "et doloremque nulla",
+      "completed": true
+    },
+    {
+      "userId": 1,
+      "id": 14,
+      "title": "repellendus sunt dolores architecto voluptatum",
+      "completed": true
+    },
+    {
+      "userId": 1,
+      "title": "hola manola",
+      "completed": false,
+      "id": 19
+    },
+    {
+      "userId": 1,
+      "id": 1757035407989,
+      "title": "fisura",
+      "completed": false
+    },
+    {
+      "userId": 1,
+      "id": 1757035577900,
+      "title": "ostia",
+      "completed": false
+    },
+    {
+      "userId": 1,
+      "id": 1757035650666,
+      "title": "jubilado",
+      "completed": false
+    },
+    {
+      "userId": 1,
+      "id": 1757035830805,
+      "title": "bety boo",
+      "completed": false
+    }
+  ]
 }

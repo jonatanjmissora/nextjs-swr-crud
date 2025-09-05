@@ -2,10 +2,13 @@
 
 import { startTransition, useState } from "react"
 import { toast } from "sonner"
-import { addTodo } from "../_actions/add-todo"
+import { addTodo } from "../api/todosApi"
+import { useRouter } from "next/navigation"
+// import { addTodo } from "../_actions/add-todo"
 
 export default function AddTodoForm() {
 	const [title, setTitle] = useState("")
+	const router = useRouter()
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
@@ -13,14 +16,13 @@ export default function AddTodoForm() {
 			toast.promise(addTodo(title), {
 				loading: "creando todo...",
 				success: data => {
-					// data aquí es {success: boolean, message: string}
-					setTitle("")
-					return data.message || `todo ${data.id} creado exitosamente`
+					startTransition(() => {
+						setTitle("")
+						router.refresh()
+					})
+					return data.message
 				},
-				error: data => {
-					// data aquí es {success: boolean, message: string}
-					return data.message || `error al crear el todo ${data.id}`
-				},
+				error: error => error.message,
 			})
 		})
 	}

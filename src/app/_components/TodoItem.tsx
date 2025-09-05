@@ -1,17 +1,22 @@
 "use client"
 // import { deleteTodo } from "../_actions/delete-todo"
-import { updateTodo } from "../_actions/update-todo"
+// import { updateTodo } from "../_actions/update-todo"
 import { TodoType } from "../_lib/types"
 import { startTransition } from "react"
 import { toast } from "sonner"
-import { deleteTodo } from "../api/todosApi"
+import { deleteTodo, updateTodo } from "../api/todosApi"
+import { useRouter } from "next/navigation"
 
 export const TodoItem = ({ todo }: { todo: TodoType }) => {
+	const router = useRouter()
 	const handleDelete = async () => {
 		startTransition(async () => {
 			toast.promise(deleteTodo(todo.id), {
-				loading: "Borrando todo...",
-				success: data => data.message,
+				loading: "borrando todo...",
+				success: data => {
+					router.refresh()
+					return data.message
+				},
 				error: error => error.message,
 			})
 		})
@@ -20,15 +25,12 @@ export const TodoItem = ({ todo }: { todo: TodoType }) => {
 	const handleUpdate = async () => {
 		startTransition(async () => {
 			toast.promise(updateTodo(todo), {
-				loading: "Actualizando todo...",
+				loading: "actualizando todo...",
 				success: data => {
-					// data aquí es {success: boolean, message: string}
-					return data.message || `Todo ${todo.id} actualizado exitosamente`
+					router.refresh()
+					return data.message
 				},
-				error: data => {
-					// data aquí es {success: boolean, message: string}
-					return data.message || `Error al actualizar el todo ${todo.id}`
-				},
+				error: error => error.message,
 			})
 		})
 	}
