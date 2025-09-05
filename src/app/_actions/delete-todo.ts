@@ -17,6 +17,7 @@ import { revalidatePath } from "next/cache"
 // }
 
 export const deleteTodo = async (id: number) => {
+	await new Promise(resolve => setTimeout(resolve, 2000))
 	try {
 		await axios.delete(`http://localhost:3001/todos/${id}`)
 		revalidatePath("/")

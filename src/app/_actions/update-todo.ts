@@ -18,6 +18,7 @@ import axios from "axios"
 // }
 
 export const updateTodo = async (todo: TodoType) => {
+	await new Promise(resolve => setTimeout(resolve, 2000))
 	try {
 		await axios.patch(`http://localhost:3001/todos/${todo.id}`, {
 			...todo,

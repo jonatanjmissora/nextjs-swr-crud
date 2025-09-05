@@ -36,6 +36,7 @@ import axios from "axios"
 // }
 
 export const getTodos = async () => {
+	await new Promise(resolve => setTimeout(resolve, 2000))
 	try {
 		const response = await axios.get("http://localhost:3001/todos")
 		return response.data

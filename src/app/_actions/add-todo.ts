@@ -19,6 +19,7 @@ import { revalidatePath } from "next/cache"
 
 //Si lo hago con axios directo al json-server
 export const addTodo = async (title: string) => {
+	await new Promise(resolve => setTimeout(resolve, 2000))
 	const id = Date.now()
 	const newTodo = { userId: 1, id, title, completed: false }
 	try {
