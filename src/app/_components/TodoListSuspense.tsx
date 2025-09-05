@@ -1,15 +1,11 @@
 "use client"
-import useSWR, { mutate } from "swr"
-import { getTodos } from "../_actions/get-todos"
 import { TodoItem } from "./TodoItem"
 import { TodoType } from "../_lib/types"
+import { useTodosQuery } from "../_lib/todos-query"
+import { mutate } from "swr"
 
 export const TodoListSuspense = () => {
-	const {
-		data: todos,
-		error,
-		isValidating,
-	} = useSWR("http://localhost:3001/todos", getTodos)
+	const { todos, error, isValidating } = useTodosQuery()
 
 	// if (isLoading) {
 	// 	return <div className="text-center pt-20">Cargando...</div>
