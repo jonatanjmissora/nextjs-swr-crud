@@ -2,9 +2,9 @@
 
 import { startTransition, useState } from "react"
 import { toast } from "sonner"
-import { addTodo } from "../api/todosApi"
+// import { addTodo } from "../api/todosApi"
 import { useRouter } from "next/navigation"
-// import { addTodo } from "../_actions/add-todo"
+import { addTodo } from "../_actions/add-todo"
 
 export default function AddTodoForm() {
 	const [title, setTitle] = useState("")
@@ -16,10 +16,8 @@ export default function AddTodoForm() {
 			toast.promise(addTodo(title), {
 				loading: "creando todo...",
 				success: data => {
-					startTransition(() => {
-						setTitle("")
-						router.refresh()
-					})
+					setTitle("")
+					router.refresh()
 					return data.message
 				},
 				error: error => error.message,

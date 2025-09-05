@@ -4,8 +4,9 @@
 import { TodoType } from "../_lib/types"
 import { startTransition } from "react"
 import { toast } from "sonner"
-import { deleteTodo, updateTodo } from "../api/todosApi"
 import { useRouter } from "next/navigation"
+import { deleteTodo } from "../_actions/delete-todo"
+import { updateTodo } from "../_actions/update-todo"
 
 export const TodoItem = ({ todo }: { todo: TodoType }) => {
 	const router = useRouter()
