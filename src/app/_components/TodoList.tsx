@@ -1,8 +1,9 @@
-import { Suspense } from "react"
+"use client"
 import { getTodos } from "../_actions/get-todos"
 import { TodoType } from "../_lib/types"
 import { TodoItem } from "./TodoItem"
 import AddTodoForm from "./AddTodoForm"
+import useSWR, { mutate } from "swr"
 
 export default function TodoList() {
 	return (
@@ -11,26 +12,31 @@ export default function TodoList() {
 				<span className="text-2xl font-bold">Todos :</span>
 				<AddTodoForm />
 			</div>
-			<Suspense
-				fallback={
-					<div className="text-2xl font-bold w-full h-full flex pt-20 justify-center">
-						Loading...
-					</div>
-				}
+			<button
+				className="bg-slate-600/20 px-2 py-1 rounded"
+				onClick={() => mutate("http://localhost:3001/todos")}
 			>
-				<TodoListSuspense />
-			</Suspense>
+				Refetch
+			</button>
+			<TodoListSuspense />
 		</section>
 	)
 }
 
-const TodoListSuspense = async () => {
-	const { success, data: todos } = (await getTodos()) as {
-		success: boolean
-		data: TodoType[]
+// const fetcher = (url: string) => fetch(url).then(res => res.json())
+
+const TodoListSuspense = () => {
+	const {
+		data: todos,
+		error,
+		isLoading,
+	} = useSWR("http://localhost:3001/todos", getTodos)
+
+	if (isLoading) {
+		return <div className="text-center pt-20">Cargando...</div>
 	}
 
-	if (!success) {
+	if (error || !todos || todos.length === 0) {
 		return (
 			<div className="text-center pt-20">
 				No se encontraron datos. Compruebe su conexion a la base de datos. Tiene
@@ -39,13 +45,9 @@ const TodoListSuspense = async () => {
 		)
 	}
 
-	if (todos.length === 0) {
-		return <div className="text-center pt-20">No hay tareas</div>
-	}
-
 	return (
 		<ul>
-			{todos.map(todo => (
+			{todos?.map((todo: TodoType) => (
 				<TodoItem key={todo.id} todo={todo} />
 			))}
 		</ul>

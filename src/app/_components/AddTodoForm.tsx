@@ -2,13 +2,11 @@
 
 import { startTransition, useState } from "react"
 import { toast } from "sonner"
-// import { addTodo } from "../api/todosApi"
-import { useRouter } from "next/navigation"
 import { addTodo } from "../_actions/add-todo"
+import { mutate } from "swr"
 
 export default function AddTodoForm() {
 	const [title, setTitle] = useState("")
-	const router = useRouter()
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
@@ -17,7 +15,7 @@ export default function AddTodoForm() {
 				loading: "creando todo...",
 				success: data => {
 					setTitle("")
-					router.refresh()
+					mutate("http://localhost:3001/todos")
 					return data.message
 				},
 				error: error => error.message,

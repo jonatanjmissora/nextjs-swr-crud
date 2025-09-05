@@ -1,21 +1,18 @@
 "use client"
-// import { deleteTodo } from "../_actions/delete-todo"
-// import { updateTodo } from "../_actions/update-todo"
 import { TodoType } from "../_lib/types"
 import { startTransition } from "react"
 import { toast } from "sonner"
-import { useRouter } from "next/navigation"
 import { deleteTodo } from "../_actions/delete-todo"
 import { updateTodo } from "../_actions/update-todo"
+import { mutate } from "swr"
 
 export const TodoItem = ({ todo }: { todo: TodoType }) => {
-	const router = useRouter()
 	const handleDelete = async () => {
 		startTransition(async () => {
 			toast.promise(deleteTodo(todo.id), {
 				loading: "borrando todo...",
 				success: data => {
-					router.refresh()
+					mutate("http://localhost:3001/todos")
 					return data.message
 				},
 				error: error => error.message,
@@ -28,7 +25,7 @@ export const TodoItem = ({ todo }: { todo: TodoType }) => {
 			toast.promise(updateTodo(todo), {
 				loading: "actualizando todo...",
 				success: data => {
-					router.refresh()
+					mutate("http://localhost:3001/todos")
 					return data.message
 				},
 				error: error => error.message,

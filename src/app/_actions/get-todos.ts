@@ -1,7 +1,7 @@
 "use server"
 
 import axios from "axios"
-import { TodoType } from "../_lib/types"
+// import { TodoType } from "../_lib/types"
 
 // export const getTodos2 = async () => {
 // 	try {
@@ -20,17 +20,26 @@ import { TodoType } from "../_lib/types"
 // 	}
 // }
 
-export const getTodos = async (): Promise<{
-	success: boolean
-	data: TodoType[]
-}> => {
+// export const getTodos = async (): Promise<{
+// 	success: boolean
+// 	data: TodoType[]
+// }> => {
+// 	try {
+// 		const response = await axios.get("http://localhost:3001/todos")
+// 		return { success: true, data: response.data }
+// 	} catch (error) {
+// 		if (axios.isAxiosError(error)) {
+// 			return { success: false, data: [] }
+// 		}
+// 		throw new Error(`Error inesperado al obtener los todos`)
+// 	}
+// }
+
+export const getTodos = async () => {
 	try {
 		const response = await axios.get("http://localhost:3001/todos")
-		return { success: true, data: response.data }
+		return response.data
 	} catch (error) {
-		if (axios.isAxiosError(error)) {
-			return { success: false, data: [] }
-		}
-		throw new Error(`Error inesperado al obtener los todos`)
+		console.error("Error fetching todos:", error)
 	}
 }
