@@ -7,6 +7,7 @@ export const useTodosQuery = () => {
 		data: todos,
 		error,
 		isValidating,
+		mutate,
 	} = useSWR("http://localhost:3001/todos", getTodos, {
 		onSuccess: (data: TodoType[]) =>
 			data.sort((a: TodoType, b: TodoType) => b.id - a.id),
@@ -19,5 +20,6 @@ export const useTodosQuery = () => {
 		todos,
 		error,
 		isValidating,
+		mutate,
 	}
 }

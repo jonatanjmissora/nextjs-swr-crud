@@ -2,28 +2,45 @@
 
 import { startTransition, useState } from "react"
 import { toast } from "sonner"
-import { addTodo } from "../_actions/add-todo"
-import { mutate } from "swr"
 import { useTodosQuery } from "../_lib/todos-query"
 import { SubmitBtn } from "./SubmitBtn"
+import { addTodoMutation, addTodoOptions } from "../_actions/todos-mutations"
+import { TodoType } from "../_lib/types"
 
 export default function AddTodoForm() {
 	const [title, setTitle] = useState("")
-	const { isValidating } = useTodosQuery()
+	const { todos, isValidating, mutate } = useTodosQuery()
 
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
+		const newTodo: TodoType = {
+			userId: 1,
+			id: Date.now(),
+			title,
+			completed: false,
+		}
+		// try {
+		// 	await mutate(
+		// 		addTodoMutation(newTodo, todos),
+		// 		addTodoOptions(newTodo, todos)
+		// 	)
+		// 	toast.success(`agregamos el todo ${newTodo.id}`)
+		// } catch (error) {
+		// 	if (error instanceof Error) {
+		// 		toast.error(error.message)
+		// 	}
+		// }
 		startTransition(async () => {
-			toast.promise(addTodo(title), {
-				loading: "creando todo...",
-				success: data => {
-					setTitle("")
-					mutate("http://localhost:3001/todos")
-					return data.message
-				},
-				error: error => error.message,
-			})
+			toast.promise(
+				mutate(addTodoMutation(newTodo, todos), addTodoOptions(newTodo, todos)),
+				{
+					loading: "creando todo...",
+					success: `todo ${newTodo.id} creado exitosamente`,
+					error: `error al crear todo ${newTodo.id}`,
+				}
+			)
 		})
+		setTitle("")
 	}
 
 	return (
