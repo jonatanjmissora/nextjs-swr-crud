@@ -16,18 +16,28 @@ import axios from "axios"
 // }
 
 export const deleteTodo = async (id: number) => {
-	await new Promise(resolve => setTimeout(resolve, 2000))
+	// Simulamos un retraso de red
+	await new Promise(resolve => setTimeout(resolve, 1000))
+
+	// Simulamos un error para probar el rollback
+	if (Math.random() < 0) {
+		// Cambiar a 0.5 para probar fallos aleatorios
+		throw new Error("Error del servidor: No se pudo eliminar la tarea")
+	}
+
 	try {
-		if (Math.random() < 0.5) throw new Error("Fallo al eliminar todo!")
-		await axios.delete(`http://localhost:3001/todos/${id}`)
-		// revalidatePath("/")
-		return { message: `Todo ${id} eliminado correctamente` }
+		const response = await axios.delete(`http://localhost:3001/todos/${id}`)
+
+		if (response.status === 200) {
+			return { success: true, id }
+		}
+
+		throw new Error("Error al eliminar la tarea")
 	} catch (error) {
 		if (axios.isAxiosError(error)) {
-			// Si es un error de Axios, lanzamos el mensaje de error
-			throw new Error(`Error al eliminar el todo ${id}`)
+			const errorMessage = error.response?.data?.message || error.message
+			throw new Error(`Error al eliminar la tarea: ${errorMessage}`)
 		}
-		// Para cualquier otro tipo de error
-		throw new Error(`Error inesperado al eliminar el todo ${id}`)
+		throw error
 	}
 }

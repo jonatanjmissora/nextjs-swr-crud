@@ -19,27 +19,27 @@ export default function AddTodoForm() {
 			title,
 			completed: false,
 		}
-		// try {
-		// 	await mutate(
-		// 		addTodoMutation(newTodo, todos),
-		// 		addTodoOptions(newTodo, todos)
-		// 	)
-		// 	toast.success(`agregamos el todo ${newTodo.id}`)
-		// } catch (error) {
-		// 	if (error instanceof Error) {
-		// 		toast.error(error.message)
-		// 	}
-		// }
-		startTransition(async () => {
-			toast.promise(
-				mutate(addTodoMutation(newTodo, todos), addTodoOptions(newTodo, todos)),
-				{
-					loading: "creando todo...",
-					success: `todo ${newTodo.id} creado exitosamente`,
-					error: `error al crear todo ${newTodo.id}`,
-				}
+		try {
+			await mutate(
+				addTodoMutation(newTodo, todos),
+				addTodoOptions(newTodo, todos)
 			)
-		})
+			toast.success(`agregamos el todo ${newTodo.id}`)
+		} catch (error) {
+			if (error instanceof Error) {
+				toast.error(error.message)
+			}
+		}
+		// startTransition(async () => {
+		// 	toast.promise(
+		// 		mutate(addTodoMutation(newTodo, todos), addTodoOptions(newTodo, todos)),
+		// 		{
+		// 			loading: "creando todo...",
+		// 			success: `todo ${newTodo.id} creado exitosamente`,
+		// 			error: `error al crear todo ${newTodo.id}`,
+		// 		}
+		// 	)
+		// })
 		setTitle("")
 	}
 

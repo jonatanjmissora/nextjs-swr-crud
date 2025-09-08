@@ -1,36 +1,68 @@
 "use client"
 import { TodoType } from "../_lib/types"
-import { startTransition } from "react"
 import { toast } from "sonner"
-import { deleteTodo } from "../_actions/delete-todo"
 import { updateTodo } from "../_actions/update-todo"
 import { mutate } from "swr"
+import {
+	deleteTodoMutation,
+	deleteTodoOptions,
+} from "../_actions/todos-mutations"
+import { useTodosQuery } from "../_lib/todos-query"
 
 export const TodoItem = ({ todo }: { todo: TodoType }) => {
+	const { todos } = useTodosQuery()
 	const handleDelete = async () => {
-		startTransition(async () => {
-			toast.promise(deleteTodo(todo.id), {
-				loading: "borrando todo...",
-				success: data => {
-					mutate("http://localhost:3001/todos")
-					return data.message
+		try {
+			const options = deleteTodoOptions(todo.id);
+
+			// Primero mostramos un toast de carga
+			const loadingToast = toast.loading("Eliminando tarea...");
+
+			await mutate(
+				"http://localhost:3001/todos",
+				async () => {
+					try {
+						const result = await deleteTodoMutation(todo.id, todos || []);
+						toast.success(`Tarea eliminada correctamente`, { id: loadingToast });
+						return result;
+					} catch (error) {
+						toast.error(`Error al eliminar la tarea`, { id: loadingToast });
+						throw error; // Importante: relanzar el error para que SWR haga el rollback
+					}
 				},
-				error: error => error.message,
-			})
-		})
+				options
+			);
+		} catch (error) {
+			// Este bloque solo se ejecutará si hay un error en el proceso de mutación
+			console.error("Error inesperado:", error);
+		}
+		// startTransition(async () => {
+		// 	toast.promise(deleteTodo(todo.id), {
+		// 		loading: "borrando todo...",
+		// 		success: data => {
+		// 			mutate("http://localhost:3001/todos")
+		// 			return data.message
+		// 		},
+		// 		error: error => error.message,
+		// 	})
+		// })
 	}
 
 	const handleUpdate = async () => {
-		startTransition(async () => {
-			toast.promise(updateTodo(todo), {
-				loading: "actualizando todo...",
-				success: data => {
-					mutate("http://localhost:3001/todos")
-					return data.message
-				},
-				error: error => error.message,
-			})
-		})
+		try {
+			await mutate(
+				updateTodo(todo),
+				{
+					optimisticData: (currentTodos: TodoType[] = []) => 
+						currentTodos.map(t => t.id === todo.id ? { ...t, completed: !t.completed } : t),
+					revalidate: false
+				}
+			)
+		} catch (error) {
+			if (error instanceof Error) {
+				toast.error(error.message)
+			}
+		}
 	}
 
 	return (

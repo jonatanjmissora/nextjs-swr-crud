@@ -11,7 +11,7 @@ export const TodoListSuspense = () => {
 	// 	return <div className="text-center pt-20">Cargando...</div>
 	// }
 
-	if (error || !todos || todos.length === 0) {
+	if (error || todos.length === 0) {
 		return (
 			<div className="text-center pt-20">
 				No se encontraron datos. Compruebe su conexion a la base de datos. Tiene
