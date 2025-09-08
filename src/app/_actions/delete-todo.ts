@@ -16,12 +16,9 @@ import axios from "axios"
 // }
 
 export const deleteTodo = async (id: number) => {
-	// Simulamos un retraso de red
 	await new Promise(resolve => setTimeout(resolve, 1000))
 
-	// Simulamos un error para probar el rollback
-	if (Math.random() < 0) {
-		// Cambiar a 0.5 para probar fallos aleatorios
+	if (Math.random() < 0.25) {
 		throw new Error("Error del servidor: No se pudo eliminar la tarea")
 	}
 

@@ -18,19 +18,30 @@ import axios from "axios"
 
 export const updateTodo = async (todo: TodoType) => {
 	await new Promise(resolve => setTimeout(resolve, 2000))
+
+	if (Math.random() < 0.25) {
+		throw new Error("Fallo al actualizar todo!")
+	}
+
 	try {
-		await axios.patch(`http://localhost:3001/todos/${todo.id}`, {
-			...todo,
-			completed: !todo.completed,
-		})
-		// revalidatePath("/")
-		return { message: `actualiamos el todo ${todo.id}` }
+		const response = await axios.patch(
+			`http://localhost:3001/todos/${todo.id}`,
+			{
+				...todo,
+				completed: !todo.completed,
+			}
+		)
+
+		if (response.status === 200) {
+			return { success: true, id: todo.id }
+		}
+
+		throw new Error("Error al actualizar la tarea")
 	} catch (error) {
 		if (axios.isAxiosError(error)) {
-			// Si es un error de Axios, lanzamos el mensaje de error
-			throw new Error(`Error al actualizar el todo ${todo.id}`)
+			const errorMessage = error.response?.data?.message || error.message
+			throw new Error(`Error al actualizar la tarea: ${errorMessage}`)
 		}
-		// Para cualquier otro tipo de error
-		throw new Error(`Error inesperado al actualizar el todo ${todo.id}`)
+		throw error
 	}
 }

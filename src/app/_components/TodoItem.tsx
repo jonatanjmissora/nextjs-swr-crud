@@ -6,6 +6,8 @@ import { mutate } from "swr"
 import {
 	deleteTodoMutation,
 	deleteTodoOptions,
+	updateTodoMutation,
+	updateTodoOptions,
 } from "../_actions/todos-mutations"
 import { useTodosQuery } from "../_lib/todos-query"
 
@@ -13,28 +15,28 @@ export const TodoItem = ({ todo }: { todo: TodoType }) => {
 	const { todos } = useTodosQuery()
 	const handleDelete = async () => {
 		try {
-			const options = deleteTodoOptions(todo.id);
+			const options = deleteTodoOptions(todo.id)
 
 			// Primero mostramos un toast de carga
-			const loadingToast = toast.loading("Eliminando tarea...");
+			const loadingToast = toast.loading("eliminando tarea...")
 
 			await mutate(
 				"http://localhost:3001/todos",
 				async () => {
 					try {
-						const result = await deleteTodoMutation(todo.id, todos || []);
-						toast.success(`Tarea eliminada correctamente`, { id: loadingToast });
-						return result;
+						const result = await deleteTodoMutation(todo.id, todos || [])
+						toast.success(`tarea eliminada correctamente`, { id: loadingToast })
+						return result
 					} catch (error) {
-						toast.error(`Error al eliminar la tarea`, { id: loadingToast });
-						throw error; // Importante: relanzar el error para que SWR haga el rollback
+						toast.error(`error al eliminar la tarea`, { id: loadingToast })
+						throw error // Importante: relanzar el error para que SWR haga el rollback
 					}
 				},
 				options
-			);
+			)
 		} catch (error) {
 			// Este bloque solo se ejecutará si hay un error en el proceso de mutación
-			console.error("Error inesperado:", error);
+			console.error("Error inesperado:", error)
 		}
 		// startTransition(async () => {
 		// 	toast.promise(deleteTodo(todo.id), {
@@ -50,18 +52,30 @@ export const TodoItem = ({ todo }: { todo: TodoType }) => {
 
 	const handleUpdate = async () => {
 		try {
+			const options = updateTodoOptions(todo)
+
+			// Primero mostramos un toast de carga
+			const loadingToast = toast.loading("actualizando tarea...")
+
 			await mutate(
-				updateTodo(todo),
-				{
-					optimisticData: (currentTodos: TodoType[] = []) => 
-						currentTodos.map(t => t.id === todo.id ? { ...t, completed: !t.completed } : t),
-					revalidate: false
-				}
+				"http://localhost:3001/todos",
+				async () => {
+					try {
+						const result = await updateTodoMutation(todo, todos || [])
+						toast.success(`tarea actualizada correctamente`, {
+							id: loadingToast,
+						})
+						return result
+					} catch (error) {
+						toast.error(`error al actualizar la tarea`, { id: loadingToast })
+						throw error // Importante: relanzar el error para que SWR haga el rollback
+					}
+				},
+				options
 			)
 		} catch (error) {
-			if (error instanceof Error) {
-				toast.error(error.message)
-			}
+			// Este bloque solo se ejecutará si hay un error en el proceso de mutación
+			console.error("Error inesperado:", error)
 		}
 	}
 
