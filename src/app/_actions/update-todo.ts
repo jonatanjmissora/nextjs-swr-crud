@@ -19,9 +19,9 @@ import axios from "axios"
 export const updateTodo = async (todo: TodoType) => {
 	await new Promise(resolve => setTimeout(resolve, 2000))
 
-	if (Math.random() < 0.25) {
-		throw new Error("Fallo al actualizar todo!")
-	}
+	// if (Math.random() < 0.25) {
+	// 	throw new Error("Fallo al actualizar todo!")
+	// }
 
 	try {
 		const response = await axios.patch(

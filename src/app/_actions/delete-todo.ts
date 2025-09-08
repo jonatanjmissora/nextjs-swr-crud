@@ -18,9 +18,9 @@ import axios from "axios"
 export const deleteTodo = async (id: number) => {
 	await new Promise(resolve => setTimeout(resolve, 1000))
 
-	if (Math.random() < 0.25) {
-		throw new Error("Error del servidor: No se pudo eliminar la tarea")
-	}
+	// if (Math.random() < 0.25) {
+	// 	throw new Error("Error del servidor: No se pudo eliminar la tarea")
+	// }
 
 	try {
 		const response = await axios.delete(`http://localhost:3001/todos/${id}`)

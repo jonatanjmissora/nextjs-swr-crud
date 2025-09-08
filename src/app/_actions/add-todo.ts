@@ -20,7 +20,7 @@ import { TodoType } from "../_lib/types"
 //Si lo hago con axios directo al json-server
 export const addTodo = async (newTodo: TodoType) => {
 	await new Promise(resolve => setTimeout(resolve, 2000))
-	if (Math.random() < 0.25) throw new Error("Fallo al agregar todo!")
+	// if (Math.random() < 0.25) throw new Error("Fallo al agregar todo!")
 	try {
 		const response = await axios.post("http://localhost:3001/todos", newTodo)
 		return response.data
