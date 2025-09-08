@@ -22,8 +22,8 @@ import { TodoType } from "../_lib/types"
 export const addTodo = async (newTodo: TodoType) => {
 	await new Promise(resolve => setTimeout(resolve, 2000))
 	try {
-		await axios.post("http://localhost:3001/todos", newTodo)
 		if (Math.random() < 0.5) throw new Error("Fallo al agregar todo!")
+		await axios.post("http://localhost:3001/todos", newTodo)
 		revalidatePath("/")
 		return { message: `agregamos el todo ${newTodo.id}` }
 	} catch (error) {
