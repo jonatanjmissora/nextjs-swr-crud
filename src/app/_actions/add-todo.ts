@@ -1,7 +1,6 @@
 "use server"
 
 import axios from "axios"
-import { revalidatePath } from "next/cache"
 import { TodoType } from "../_lib/types"
 
 // si lo hago con una API/route
@@ -24,7 +23,7 @@ export const addTodo = async (newTodo: TodoType) => {
 	try {
 		if (Math.random() < 0.5) throw new Error("Fallo al agregar todo!")
 		await axios.post("http://localhost:3001/todos", newTodo)
-		revalidatePath("/")
+		// revalidatePath("/")
 		return { message: `agregamos el todo ${newTodo.id}` }
 	} catch (error) {
 		if (axios.isAxiosError(error)) {

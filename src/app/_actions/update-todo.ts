@@ -1,6 +1,5 @@
 "use server"
 
-import { revalidatePath } from "next/cache"
 import { TodoType } from "../_lib/types"
 import axios from "axios"
 
@@ -24,7 +23,7 @@ export const updateTodo = async (todo: TodoType) => {
 			...todo,
 			completed: !todo.completed,
 		})
-		revalidatePath("/")
+		// revalidatePath("/")
 		return { message: `actualiamos el todo ${todo.id}` }
 	} catch (error) {
 		if (axios.isAxiosError(error)) {

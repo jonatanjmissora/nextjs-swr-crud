@@ -1,7 +1,6 @@
 "use server"
 
 import axios from "axios"
-import { revalidatePath } from "next/cache"
 
 // export const deleteTodo2 = async (id: number) => {
 // 	await new Promise(resolve => setTimeout(resolve, 2000))
@@ -19,8 +18,9 @@ import { revalidatePath } from "next/cache"
 export const deleteTodo = async (id: number) => {
 	await new Promise(resolve => setTimeout(resolve, 2000))
 	try {
+		if (Math.random() < 0.5) throw new Error("Fallo al eliminar todo!")
 		await axios.delete(`http://localhost:3001/todos/${id}`)
-		revalidatePath("/")
+		// revalidatePath("/")
 		return { message: `Todo ${id} eliminado correctamente` }
 	} catch (error) {
 		if (axios.isAxiosError(error)) {
