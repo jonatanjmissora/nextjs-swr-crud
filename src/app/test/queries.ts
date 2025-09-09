@@ -6,6 +6,6 @@ export const useTodos = () => {
 	return useSWR<TodoType[]>("http://localhost:3001/todos", getTodos, {
 		revalidateOnFocus: false,
 		revalidateOnMount: false,
-		refreshInterval: 60000,
+		refreshInterval: 10000,
 	})
 }

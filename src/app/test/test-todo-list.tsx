@@ -5,6 +5,7 @@ import { TodoType } from "../_lib/types"
 import { startTransition, useState } from "react"
 import { useCreateTodo } from "./mutation"
 import { toast } from "sonner"
+import TestTodoItem from "./test-todo-item"
 
 export default function TestTodosList() {
 	const [title, setTitle] = useState("")
@@ -85,7 +86,7 @@ export default function TestTodosList() {
 
 			<ul className="mx-auto p-12 bg-slate-600/20 rounded-lg min-w-[700px] h-[700px] overflow-y-auto">
 				{todos?.map((todo: TodoType) => (
-					<li key={todo.id}>{todo.title}</li>
+					<TestTodoItem key={todo.id} todo={todo} />
 				))}
 			</ul>
 		</div>
