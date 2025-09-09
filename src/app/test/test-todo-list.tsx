@@ -3,7 +3,7 @@
 import { useTodos } from "./queries"
 import { TodoType } from "../_lib/types"
 import { startTransition, useState } from "react"
-import { useCreateTodo } from "./mutation"
+import { useCreateTodo } from "./_actions/mutation"
 import { toast } from "sonner"
 import TestTodoItem from "./test-todo-item"
 
@@ -75,7 +75,7 @@ export default function TestTodosList() {
 				/>
 				<button
 					onClick={handleCreateTodo}
-					className="bg-slate-600/20 px-2 py-1 rounded"
+					className={`bg-slate-600/20 px-2 py-1 rounded ${isMutating || title.trim() === "" || isLoading ? "cursor-not-allowed" : "cursor-pointer"}`}
 					disabled={isMutating || title.trim() === "" || isLoading}
 				>
 					Enviar

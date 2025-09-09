@@ -1,5 +1,5 @@
 import axios from "axios"
-import { TodoType } from "../_lib/types"
+import { TodoType } from "../../_lib/types"
 
 export const createTodo = async (
 	url: string,

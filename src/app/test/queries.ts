@@ -5,7 +5,7 @@ import { TodoType } from "../_lib/types"
 export const useTodos = () => {
 	return useSWR<TodoType[]>("http://localhost:3001/todos", getTodos, {
 		revalidateOnFocus: false,
-		revalidateOnMount: false,
+		// revalidateOnMount: false,
 		refreshInterval: 10000,
 	})
 }
