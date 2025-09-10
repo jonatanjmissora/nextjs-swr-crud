@@ -1,6 +1,6 @@
 import useSWRMutation from "swr/mutation"
 import { createTodo } from "./createTodo"
-import { TodoType } from "../../_lib/types"
+import { TodoType } from "../_lib/types"
 import { updateTodo } from "./updateTodo"
 import { deleteTodo } from "./deleteTodo"
 
