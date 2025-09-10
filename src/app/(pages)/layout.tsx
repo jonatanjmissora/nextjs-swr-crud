@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
 import { Toaster } from "sonner"
+import Link from "next/link"
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -28,9 +29,20 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
+				<Header />
 				{children}
-				<Toaster richColors position="top-right"/>
+				<Toaster richColors position="top-right" />
 			</body>
 		</html>
+	)
+}
+
+const Header = () => {
+	return (
+		<header className="w-full h-16 flex items-center justify-center gap-24 bg-slate-600/20">
+			<h1>CRUD con SWR</h1>
+			<Link href="/">Todos</Link>
+			<Link href="/mongo">Mongo</Link>
+		</header>
 	)
 }

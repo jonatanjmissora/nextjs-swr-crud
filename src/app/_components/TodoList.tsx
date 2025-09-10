@@ -12,14 +12,6 @@ export default function TodosList() {
 	const { data: todos, error, isLoading, isValidating } = useTodos()
 	const { trigger: createTodoMutation, isMutating } = useCreateTodo()
 
-	if (isLoading) {
-		return <div>Loading...</div>
-	}
-
-	if (error) {
-		return <div>Error: {error.message}</div>
-	}
-
 	const handleCreateTodo = async () => {
 		const newTodo = {
 			userId: 1,
@@ -84,11 +76,17 @@ export default function TodosList() {
 				{isValidating && <span>validating...</span>}
 			</div>
 
-			<ul className="mx-auto p-12 py-4 bg-slate-600/20 rounded-lg min-w-[700px] h-[700px] overflow-y-auto">
-				{todos?.map((todo: TodoType) => (
-					<TodoItem key={todo.id} todo={todo} />
-				))}
-			</ul>
+			{isLoading ? (
+				<div className="mt-20 text-xl font-semibold">Loading...</div>
+			) : error ? (
+				<div>Error: {error.message}</div>
+			) : (
+				<ul className="mx-auto p-12 py-4 bg-slate-600/20 rounded-lg min-w-[700px] h-[700px] overflow-y-auto">
+					{todos?.map((todo: TodoType) => (
+						<TodoItem key={todo.id} todo={todo} />
+					))}
+				</ul>
+			)}
 		</div>
 	)
 }
