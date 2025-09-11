@@ -16,24 +16,23 @@ export const useCreateNote = () => {
 }
 
 export const useUpdateNote = () => {
-	// return useSWRMutation(
-	// 	"mongo-notes",
-	// 	(url, { arg }: { arg: MongoNoteType }) =>
-	// 		updateNote(url, { updatedNote: arg }),
-	// 	{
-	// 		rollbackOnError: true,
-	// 		revalidate: false,
-	// 	}
-	// )
+	return useSWRMutation(
+		"mongo-notes",
+		(_url, { arg }: { arg: MongoNoteType }) => updateNote(arg),
+		{
+			rollbackOnError: true,
+			revalidate: false,
+		}
+	)
 }
 
 export const useDeleteNote = () => {
-	// return useSWRMutation(
-	// 	"mongo-notes",
-	// 	(url, { arg }: { arg: string }) => deleteNote(url, { id: arg }),
-	// 	{
-	// 		rollbackOnError: true,
-	// 		revalidate: false,
-	// 	}
-	// )
+	return useSWRMutation(
+		"mongo-notes",
+		(_url, { arg }: { arg: MongoNoteType }) => deleteNote(arg),
+		{
+			rollbackOnError: true,
+			revalidate: false,
+		}
+	)
 }

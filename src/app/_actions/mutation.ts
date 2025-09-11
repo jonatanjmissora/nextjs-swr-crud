@@ -4,9 +4,11 @@ import { TodoType } from "../_lib/types"
 import { updateTodo } from "./updateTodo"
 import { deleteTodo } from "./deleteTodo"
 
+const API_URL = process.env.NEXT_PUBLIC_JSON_SERVER_URL
+
 export const useCreateTodo = () => {
 	return useSWRMutation(
-		"http://localhost:3001/todos",
+		API_URL!,
 		(url, { arg }: { arg: TodoType }) => createTodo(url, { newTodo: arg }),
 		{
 			rollbackOnError: true,
@@ -17,7 +19,7 @@ export const useCreateTodo = () => {
 
 export const useUpdateTodo = () => {
 	return useSWRMutation(
-		"http://localhost:3001/todos",
+		API_URL!,
 		(url, { arg }: { arg: TodoType }) => updateTodo(url, { updatedTodo: arg }),
 		{
 			rollbackOnError: true,
@@ -28,7 +30,7 @@ export const useUpdateTodo = () => {
 
 export const useDeleteTodo = () => {
 	return useSWRMutation(
-		"http://localhost:3001/todos",
+		API_URL!,
 		(url, { arg }: { arg: number }) => deleteTodo(url, { id: arg }),
 		{
 			rollbackOnError: true,

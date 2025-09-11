@@ -1,11 +1,30 @@
-import axios from "axios"
+"use server"
+import { getCollection } from "@/app/_lib/mongo-connect"
 import { MongoNoteType } from "@/app/_lib/types"
+import { ObjectId } from "mongodb"
 
 export const updateNote = async (
-	url: string,
-	{ updatedNote }: { updatedNote: MongoNoteType }
+	note: MongoNoteType,
 ) => {
 	await new Promise(resolve => setTimeout(resolve, 2000))
-	const response = await axios.patch(`${url}/${updatedNote._id}`, updatedNote)
-	return response.data
+	try {
+		const notesCollection = await getCollection("notes")
+		// db validation
+		const res = await notesCollection.updateOne(
+			{ _id: new ObjectId(note._id) },
+			{
+				$set: { pinned: !note.pinned },
+			}
+		)
+		if (res.modifiedCount !== 1) {
+			return { success: false, data: null }
+		}
+
+		return {
+			success: true,
+			data: note,
+		}
+	} catch (error) {
+		return { success: false, data: null }
+	}
 }

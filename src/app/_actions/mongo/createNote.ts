@@ -2,16 +2,8 @@
 import { getCollection } from "@/app/_lib/mongo-connect"
 import { MongoNoteType } from "@/app/_lib/types"
 
-// export const createNote = async (
-// 	url: string,
-// 	{ newNote }: { newNote: MongoNoteType }
-// ) => {
-// 	await new Promise(resolve => setTimeout(resolve, 2000))
-// 	const response = await axios.post(url, newNote)
-// 	return response.data
-// }
-
 export const createNote = async (newNote: MongoNoteType) => {
+	await new Promise(resolve => setTimeout(resolve, 2000))
 	const user = "kp_36204bd6138c4b029b7f77d84fe30093"
 
 	const note = {

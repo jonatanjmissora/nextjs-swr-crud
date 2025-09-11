@@ -7,10 +7,8 @@ declare global {
 	// eslint-disable-next-line no-var
 	var _mongoClientPromise: Promise<MongoClient> | undefined
 }
-// biome-ignore lint/style/noNonNullAssertion: <no se como evitarlo>
-const URI = process.env.MONGODB_URI!
-// biome-ignore lint/style/noNonNullAssertion: <no se como evitarlo>
-const DB = process.env.MONGODB_DB!
+const URI = process.env.NEXT_PUBLIC_MONGODB_URI!
+const DB = process.env.NEXT_PUBLIC_MONGODB_DB!
 const options = {}
 client = new MongoClient(URI, options)
 
