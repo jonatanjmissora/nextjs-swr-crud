@@ -4,7 +4,7 @@ import { TodoType } from "../_lib/types"
 import { toast } from "sonner"
 import { useDeleteTodo, useUpdateTodo } from "../_actions/mutation"
 
-export default function TestTodoItem({ todo }: { todo: TodoType }) {
+export default function TodoItem({ todo }: { todo: TodoType }) {
 	const { trigger: updateTodo, isMutating } = useUpdateTodo()
 	const { trigger: deleteTodo, isMutating: isDeleting } = useDeleteTodo()
 

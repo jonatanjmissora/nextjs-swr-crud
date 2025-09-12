@@ -1,7 +1,7 @@
 "use server"
 
 import axios from "axios"
-import { TodoType } from "../_lib/types"
+import { TodoType } from "../../_lib/types"
 
 export const getTodosApiRoute = async () => {
 	await new Promise(resolve => setTimeout(resolve, 2000))
