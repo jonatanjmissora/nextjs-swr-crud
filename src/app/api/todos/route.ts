@@ -1,11 +1,22 @@
 import { NextResponse } from "next/server"
-import fs from "fs/promises"
-import path from "path"
+import fs from "node:fs/promises"
+import path from "node:path"
 
 const dbPath = path.join(process.cwd(), "data", "db.json")
 
+interface Todo {
+  userId: number
+  id: number
+  title: string
+  completed: boolean
+}
+
+interface JSONType {
+  todos: Todo[]
+}
+
 // Función auxiliar para leer el archivo JSON
-async function readDb() {
+async function readDb(): Promise<JSONType> {
 	try {
 		const data = await fs.readFile(dbPath, "utf-8")
 		return JSON.parse(data)
@@ -16,7 +27,7 @@ async function readDb() {
 }
 
 // Función auxiliar para escribir en el archivo JSON
-async function writeDb(data: any) {
+async function writeDb(data: JSONType) {
 	try {
 		await fs.writeFile(dbPath, JSON.stringify(data, null, 2), "utf-8")
 		return true
