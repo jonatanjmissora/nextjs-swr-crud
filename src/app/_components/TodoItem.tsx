@@ -2,22 +2,37 @@
 import { startTransition } from "react"
 import { TodoType } from "../_lib/types"
 import { toast } from "sonner"
-import { useDeleteTodo, useUpdateTodo } from "../_actions/mutation"
+import {
+	useDeleteTodoProduction,
+	useUpdateTodoProduction,
+} from "../_actions/production/mutation-production"
+// import { useDeleteTodo, useUpdateTodo } from "../_actions/mutation"
 
 export default function TodoItem({ todo }: { todo: TodoType }) {
-	const { trigger: updateTodo, isMutating } = useUpdateTodo()
-	const { trigger: deleteTodo, isMutating: isDeleting } = useDeleteTodo()
+	// const { trigger: updateTodo, isMutating } = useUpdateTodo()
+	// const { trigger: deleteTodo, isMutating: isDeleting } = useDeleteTodo()
+	const { trigger: updateTodoProduction, isMutating } =
+		useUpdateTodoProduction()
+	const { trigger: deleteTodoProduction, isMutating: isDeleting } =
+		useDeleteTodoProduction()
 
 	const handleCheck = async () => {
 		const updatedTodo = { ...todo, completed: !todo.completed }
 		const options = {
-			optimisticData: (current: TodoType[] = []) =>
-				current.map(item => (item.id === updatedTodo.id ? updatedTodo : item)),
-			rollbackOnError: true,
-			revalidate: false,
+			optimisticData: (data: TodoType[] | undefined) =>
+				(data || []).map(item =>
+					item.id === updatedTodo.id
+						? { ...updatedTodo, title: `${updatedTodo.title} *` }
+						: item
+				),
+
+			// optimisticData: (data: TodoType[] | undefined) => [
+			// 	{ ...newTodo, title: `${newTodo.title} *` },
+			// 	...(data || []),
+			// ],
 		}
 		startTransition(() => {
-			toast.promise(updateTodo(updatedTodo, options), {
+			toast.promise(updateTodoProduction(updatedTodo, options), {
 				loading: "actualizando todo...",
 				success: "todo actualizado exitosamente",
 				error: "error al actualizar todo",
@@ -27,13 +42,11 @@ export default function TodoItem({ todo }: { todo: TodoType }) {
 
 	const handleDelete = async () => {
 		const options = {
-			optimisticData: (current: TodoType[] = []) =>
-				current.filter(item => item.id !== todo.id),
-			rollbackOnError: true,
-			revalidate: false,
+			optimisticData: (data: TodoType[] = []) =>
+				data.filter(item => item.id !== todo.id),
 		}
 		startTransition(() => {
-			toast.promise(deleteTodo(todo.id, options), {
+			toast.promise(deleteTodoProduction(todo.id, options), {
 				loading: "borrando todo...",
 				success: "todo borrado exitosamente",
 				error: "error al borrar todo",
@@ -48,12 +61,12 @@ export default function TodoItem({ todo }: { todo: TodoType }) {
 				className={`size-5 ${isMutating ? "cursor-not-allowed" : "cursor-pointer"}`}
 				checked={todo.completed}
 				onChange={handleCheck}
-				disabled={isMutating}
+				// disabled={isMutating}
 			/>
 			{todo.title}
 			<button
 				className={`bg-red-500/20 text-white px-2 py-1 rounded ${isDeleting ? "cursor-not-allowed" : "cursor-pointer"}`}
-				disabled={isDeleting}
+				// disabled={isDeleting}
 				onClick={handleDelete}
 			>
 				Delete

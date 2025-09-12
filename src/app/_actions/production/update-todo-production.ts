@@ -1,10 +1,10 @@
 import { TodoType } from "@/app/_lib/types"
 import axios from "axios"
 
-export const updateTodo = async (updatedTodo: TodoType) => {
+export const updateTodoProduction = async (updatedTodo: TodoType) => {
 	try {
 		const response = await axios.put(
-			`/api/todos/${updatedTodo.id}`,
+			`http://localhost:3000/api/todos/${updatedTodo.id}`,
 			updatedTodo,
 			{
 				headers: {

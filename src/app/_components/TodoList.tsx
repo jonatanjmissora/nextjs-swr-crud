@@ -12,7 +12,8 @@ export default function TodosList() {
 	// const { data: todos, error, isLoading, isValidating } = useTodos()
 	// const { trigger: createTodoMutation, isMutating } = useCreateTodo()
 	const { data: todos, error, isLoading, isValidating } = useTodosProduction()
-	const { trigger: createTodoMutation, isMutating } = useCreateTodoProduction()
+	const { trigger: createTodoProduction, isMutating } =
+		useCreateTodoProduction()
 
 	const handleCreateTodo = async () => {
 		const newTodo = {
@@ -30,7 +31,7 @@ export default function TodosList() {
 		}
 
 		startTransition(async () => {
-			toast.promise(createTodoMutation(newTodo, options), {
+			toast.promise(createTodoProduction(newTodo, options), {
 				loading: "creando todo...",
 				success: "todo creado exitosamente",
 				error: "error al crear todo",

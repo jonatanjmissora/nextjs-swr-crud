@@ -201,4 +201,9 @@ bun dev:all
         useTodoProduction() => desde ahi invocamos el GET del punto 4
         useCreateTodoProduction() => desde ahi invocamos al archivo mutation-production.ts que utiliza el hook useSWRMutation().
         con la nueva accion create-todo-mutation.ts, que hace un POST a la ruta "http://localhost:3000/api/todos"
+    6 en TodoItem.tsx creamos los siguientes hooks:
+        useUpdateTodo() => desde ahi invocamos al archivo mutation-production.ts que utiliza el hook useSWRMutation().
+        con la nueva accion update-todo-mutation.ts, que hace un PUT a la ruta "http://localhost:3000/api/todos"
+        useDeleteTodo() => desde ahi invocamos al archivo mutation-production.ts que utiliza el hook useSWRMutation().
+        con la nueva accion delete-todo-mutation.ts, que hace un DELETE a la ruta "http://localhost:3000/api/todos"
         
