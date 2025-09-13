@@ -1,10 +1,11 @@
 import { TodoType } from "@/app/_lib/types"
 import axios from "axios"
+import { API_ENDPOINTS } from "@/app/_config/api"
 
 export const createTodoProduction = async (newTodo: TodoType) => {
 	try {
 		const response = await axios.post(
-			"http://localhost:3000/api/todos",
+			API_ENDPOINTS.TODOS,
 			newTodo,
 			{
 				headers: {
@@ -13,9 +14,9 @@ export const createTodoProduction = async (newTodo: TodoType) => {
 			}
 		)
 
-		return response.data
+		return response.data.todo
 	} catch (error) {
-		console.error("Error en createTodo:", error)
+		console.error("Error creating todo:", error)
 		if (axios.isAxiosError(error)) {
 			// Si es un error de Axios, podemos acceder a más detalles
 			console.error("Detalles del error:", error.response?.data)

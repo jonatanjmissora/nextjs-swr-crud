@@ -1,9 +1,10 @@
 import axios from "axios"
+import { API_ENDPOINTS } from "@/app/_config/api"
 
 export const deleteTodoProduction = async (id: number) => {
 	try {
 		const response = await axios.delete(
-			`http://localhost:3000/api/todos/${id}`,
+			API_ENDPOINTS.TODO_BY_ID(id),
 			{
 				headers: {
 					"Content-Type": "application/json",
