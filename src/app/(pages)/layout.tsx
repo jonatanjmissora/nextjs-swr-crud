@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
 import { Toaster } from "sonner"
 import Link from "next/link"
+import { Header } from "../_components/header"
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -34,15 +35,5 @@ export default function RootLayout({
 				<Toaster richColors position="top-right" />
 			</body>
 		</html>
-	)
-}
-
-const Header = () => {
-	return (
-		<header className="w-full h-16 flex items-center justify-center gap-24 bg-slate-600/20">
-			<h1>CRUD con SWR</h1>
-			<Link href="/">Todos</Link>
-			<Link href="/mongo">Mongo</Link>
-		</header>
 	)
 }
