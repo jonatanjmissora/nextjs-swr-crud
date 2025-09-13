@@ -41,9 +41,10 @@ export default function TodoItem({ todo }: { todo: TodoType }) {
 	}
 
 	const handleDelete = async () => {
+		console.log("handleDelete")
 		const options = {
-			optimisticData: (data: TodoType[] = []) =>
-				data.filter(item => item.id !== todo.id),
+			optimisticData: (currentData: TodoType[] = []) =>
+				currentData.filter(item => item.id !== todo.id),
 		}
 		startTransition(() => {
 			toast.promise(deleteTodoProduction(todo.id, options), {

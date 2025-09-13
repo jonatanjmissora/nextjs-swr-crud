@@ -28,7 +28,7 @@ export const useUpdateTodoProduction = () => {
 
 export const useDeleteTodoProduction = () => {
 	return useSWRMutation(
-		"http://localhost:3000/api/todos",
+		"json-todos",
 		(_url, { arg }: { arg: number }) => deleteTodoProduction(arg),
 		{
 			rollbackOnError: true,
