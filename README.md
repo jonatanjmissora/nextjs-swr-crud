@@ -11,6 +11,8 @@ COMO HACER UN TUNEL PARA TU APLICACION
 7- sobre los ... que aparecen en el dominio, le das a ejecutar endpoint
 8- copias el script, y le modificas el puerto a 3001 (es el que usa nuestra API)
 9- pegas en terminal, y te dara un url que usaremos en la aplicacion
+ngrok http --url=merry-uncatholical-kristie.ngrok-free.app 3001
+10- verificas en https://merry-uncatholical-kristie.ngrok-free.app
 
 Como se usa:
 ==========
