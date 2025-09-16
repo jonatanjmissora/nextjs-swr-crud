@@ -4,12 +4,24 @@
       "userId": 1,
       "id": 1757441325823,
       "title": "spiderman",
-      "completed": false
+      "completed": true
     },
     {
       "userId": 1,
       "id": 1757441388289,
       "title": "thanos",
+      "completed": false
+    },
+    {
+      "userId": 1,
+      "id": 1758047895439,
+      "title": "thor",
+      "completed": true
+    },
+    {
+      "userId": 1,
+      "id": 1758048132747,
+      "title": "captain america",
       "completed": false
     }
   ]

@@ -9,7 +9,7 @@ export const getTodosApiRoute = async () => {
 
 	try {
 		const response = await axios.get(API_ENDPOINTS.TODOS)
-		return response.data.todos.sort((a: TodoType, b: TodoType) => b.id - a.id)
+		return response.data.sort((a: TodoType, b: TodoType) => b.id - a.id)
 	} catch (error) {
 		console.error("Error fetching todos:", error)
 		throw error

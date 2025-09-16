@@ -1,3 +1,17 @@
+COMO HACER UN TUNEL PARA TU APLICACION
+====================================
+1- instalas el chocolatey: abres una powershell como administrador y ejecutas:
+    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+2- instalas ngrok: abres una nueva powershell como administrador y ejecutas:
+    choco install ngrok
+3- verificas que ngrok esta instalado: ngrok version en la terminal de windsurf
+4- inicias secion en ngrok, vas a autenticacion, y copias el token
+5- ejecutas:ngrok config add-authtoken 32joMyUZLlYdj0x7W2Tdp6Nsogc_5qamnCuiTNPdXJtTsNDf8
+6- creas un dominio aleatorio en la pagina de ngrok, y ese va a ser el que usaremos en la aplicacion
+7- sobre los ... que aparecen en el dominio, le das a ejecutar endpoint
+8- copias el script, y le modificas el puerto a 3001 (es el que usa nuestra API)
+9- pegas en terminal, y te dara un url que usaremos en la aplicacion
+
 Como se usa:
 ==========
 Preparacion del proyecto una vez clonado
@@ -16,6 +30,10 @@ Preparacion del proyecto una vez clonado
     
     la API correra en http://localhost:3001/todos
 
+3.25- instalamos concurrently:
+"bun add -D concurrently"
+3.5- agregamos el script a package.json:
+"dev:all": "concurrently \"bun dev\" \"bun x json-server -w data/db.json -p 3001\"",
 4- iniciar API de json-server con y el proyecto con un solo comando:
     bun dev:all
 
