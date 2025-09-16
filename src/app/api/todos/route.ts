@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server"
-
-const API_BASE_URL = 'http://localhost:3001/todos'
+import { API_ENDPOINTS } from "@/app/_config/api"
 
 interface TodoBody {
   title: string;
@@ -8,7 +7,11 @@ interface TodoBody {
   userId?: number;
 }
 
-async function proxyRequest(method: string, url: string, body?: TodoBody) {
+async function proxyRequest(
+  method: string, 
+  url: string, 
+  body?: TodoBody
+): Promise<NextResponse> {
   try {
     const options: RequestInit = {
       method,
@@ -35,10 +38,10 @@ async function proxyRequest(method: string, url: string, body?: TodoBody) {
 }
 
 export async function GET() {
-  return proxyRequest('GET', API_BASE_URL)
+  return proxyRequest('GET', API_ENDPOINTS.TODOS);
 }
 
 export async function POST(request: Request) {
-  const body = await request.json()
-  return proxyRequest('POST', API_BASE_URL, body)
+  const body = await request.json();
+  return proxyRequest('POST', API_ENDPOINTS.TODOS, body);
 }

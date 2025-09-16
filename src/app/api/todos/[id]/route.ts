@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server"
-
-const API_BASE_URL = 'http://localhost:3001/todos'
+import { API_ENDPOINTS } from "@/app/_config/api"
 
 interface TodoBody {
   id?: number;
@@ -12,11 +11,9 @@ interface TodoBody {
 async function proxyRequest(
   method: string, 
   url: string, 
-  id: string, 
   body?: TodoBody
-) {
+): Promise<NextResponse> {
   try {
-    const requestUrl = id ? `${url}/${id}` : url
     const options: RequestInit = {
       method,
       headers: {
@@ -28,7 +25,7 @@ async function proxyRequest(
       options.body = JSON.stringify(body)
     }
 
-    const response = await fetch(requestUrl, options)
+    const response = await fetch(url, options)
     const data = await response.json()
     
     return NextResponse.json(data, { status: response.status })
@@ -42,26 +39,29 @@ async function proxyRequest(
 }
 
 export async function GET(
-  _request: Request,
-  { params }: { params: { id: string } }
+  request: Request,
+  context: any
 ) {
-  const { id } = params
-  return proxyRequest('GET', API_BASE_URL, id)
+  const id = context.params?.id;
+  if (!id) return NextResponse.json({ error: 'ID is required' }, { status: 400 });
+  return proxyRequest('GET', API_ENDPOINTS.TODO_BY_ID(Number(id)));
 }
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  context: any
 ) {
-  const { id } = params
-  const body = await request.json()
-  return proxyRequest('PUT', API_BASE_URL, id, body)
+  const id = context.params?.id;
+  if (!id) return NextResponse.json({ error: 'ID is required' }, { status: 400 });
+  const body = await request.json();
+  return proxyRequest('PUT', API_ENDPOINTS.TODO_BY_ID(Number(id)), body);
 }
 
 export async function DELETE(
-  _request: Request,
-  { params }: { params: { id: string } }
+  request: Request,
+  context: any
 ) {
-  const { id } = params
-  return proxyRequest('DELETE', API_BASE_URL, id)
+  const id = context.params?.id;
+  if (!id) return NextResponse.json({ error: 'ID is required' }, { status: 400 });
+  return proxyRequest('DELETE', API_ENDPOINTS.TODO_BY_ID(Number(id)));
 }
