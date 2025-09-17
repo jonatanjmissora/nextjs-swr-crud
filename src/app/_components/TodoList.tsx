@@ -37,26 +37,8 @@ export default function TodosList() {
 				success: "todo creado exitosamente",
 				error: "error al crear todo",
 			})
-
 			setTitle("")
 		})
-
-		// const sonnerLoading = toast.loading("creando todo...")
-
-		// try {
-		// 	await createTodoMutation(newTodo, {
-		// 		optimisticData: data =>
-		// 			data && [
-		// 				{ ...newTodo, title: `${newTodo.title} (optimistic)` },
-		// 				...data,
-		// 			],
-		// 	})
-		// 	setTitle("")
-		// 	toast.success("Todo creado exitosamente", { id: sonnerLoading })
-		// } catch (error) {
-		// 	console.error("Error creating todo:", error)
-		// 	toast.error("Error creating todo", { id: sonnerLoading })
-		// }
 	}
 
 	return (
