@@ -1,3 +1,4 @@
+"use server"
 import { TodoType } from "@/app/_lib/types"
 import axios from "axios"
 import { API_ENDPOINTS } from "@/app/_config/api"

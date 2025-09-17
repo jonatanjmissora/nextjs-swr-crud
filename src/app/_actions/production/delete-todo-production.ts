@@ -1,16 +1,14 @@
+"use server"
 import axios from "axios"
 import { API_ENDPOINTS } from "@/app/_config/api"
 
 export const deleteTodoProduction = async (id: number) => {
 	try {
-		const response = await axios.delete(
-			API_ENDPOINTS.TODO_BY_ID(id),
-			{
-				headers: {
-					"Content-Type": "application/json",
-				},
-			}
-		)
+		const response = await axios.delete(API_ENDPOINTS.TODO_BY_ID(id), {
+			headers: {
+				"Content-Type": "application/json",
+			},
+		})
 
 		return response.status === 204 // 204 No Content es el código de éxito para DELETE
 	} catch (error) {

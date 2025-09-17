@@ -1,18 +1,15 @@
+"use server"
 import { TodoType } from "@/app/_lib/types"
 import axios from "axios"
 import { API_ENDPOINTS } from "@/app/_config/api"
 
 export const createTodoProduction = async (newTodo: TodoType) => {
 	try {
-		const response = await axios.post(
-			API_ENDPOINTS.TODOS,
-			newTodo,
-			{
-				headers: {
-					"Content-Type": "application/json",
-				},
-			}
-		)
+		const response = await axios.post(API_ENDPOINTS.TODOS, newTodo, {
+			headers: {
+				"Content-Type": "application/json",
+			},
+		})
 
 		return response.data.todo
 	} catch (error) {
